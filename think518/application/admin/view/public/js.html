@@ -1,0 +1,27 @@
+<script src="/static/asserts/js/skins.min.js"></script>
+<!--Basic Scripts-->
+<script src="/static/asserts/js/jquery.min.js"></script>
+<script src="/static/asserts/js/bootstrap.min.js"></script>
+<script src="/static/asserts/js/slimscroll/jquery.slimscroll.min.js"></script>
+<!--Beyond Scripts-->
+<script src="/static/asserts/js/beyond.js"></script>
+<script src="/static/asserts/lib/layer/layer.js"></script>
+
+<script>
+    $(function () {
+        $('#logout').click(function () {
+            $.ajax({
+                url:"{:url('admin/user/logout')}",
+                success:function (data) {
+                    layer.msg(data.msg,{
+                        icon:6,
+                        time:1000
+                    },function () {
+                        //jump
+                        location.href = data.url;
+                    });
+                }
+            })
+        });
+    })
+</script>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>机票信息</title>
+    <link rel="stylesheet" href="/static/asserts/css/navigate.css">
+    <link rel="stylesheet" href="/static/asserts/css/table.css">
+    <link rel="shortcut icon" href="/static/asserts/img/xlogo.png" type="image/x-icon">
+</head>
+<body>
+{include file='public/head'}
+<div class="div-style" align="center">
+    <table id="tables" title="机票">
+        <tr>
+            <thead>
+                <tr>
+                    <th>机票号</th>
+                    <th>订单号</th>
+                    <th>乘客姓名</th>
+                    <th>座位号</th>
+                    <th>航班号</th>
+                    <th>舱位等级</th>
+                    <th>是否登机</th>
+                    <th>登机口</th>
+                    <th>值机</th>
+                </tr>
+            </thead>
+            <tbody>
+            {volist name='list' id='vo'}
+                <td>{$vo.ticketId}</td>
+                <td>{$vo.orderId}</td>
+                <td>{$vo.passName}</td>
+                <td>{$vo.seatId}</td>
+                <td>{$vo.execId}</td>
+                <td>{$vo.shippingGrade}</td>
+                <td>{$vo.isCheckIn}</td>
+                <td>{$vo.boardingNumber}</td>
+                <td><a href="{:url('admin/seat/seatlist',['shippingId'=>$vo.shippingId])}">值机</a> </td>
+            {/volist}
+            </tbody>
+        </tr>
+    </table>
+</div>
+{include file='public/js'}
+</body>
+</html>

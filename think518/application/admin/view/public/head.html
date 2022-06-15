@@ -1,0 +1,20 @@
+<div align="center">
+    <img src="/static/asserts/img/logo.png">
+</div>
+<ul>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">个人中心</a>
+        <div class="dropdown-content">
+            <a href="{:url('admin/order/orderlist')}">查询订单</a>
+            <a href="{:url('admin/passenger/passengerlist')}">乘机人管理</a>
+            <a href="#" id="logout">注销</a>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a class="dropbtn" href="#">航班业务</a>
+        <div class="dropdown-content">
+            <a href="{:url('admin/executiveflight/executive')}">查询航班</a>
+        </div>
+    </li>
+    <li><a class="active" href="{:url('admin/flight/main')}">主页</a> </li>
+</ul>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>购买机票</title>
+    <link rel="stylesheet" href="/static/asserts/css/navigate.css">
+    <link rel="stylesheet" href="/static/asserts/css/update.css">
+    <link rel="shortcut icon" href="/static/asserts/img/xlogo.png" type="image/x-icon">
+</head>
+<body>
+{include file='public/head'}
+<div class="div-style">
+    <form action="#" method="post" class="basic-grey">
+        <h1>2.确认航班信息</h1>
+        <label>
+            <span>乘机人姓名</span>
+            <input id="passName" type="text" value="{$passenger.passName}" name="passName" readonly>
+        </label>
+        <label>
+            <span>身份证号</span>
+            <input id="idNumber" type="text" value="{$passenger.idNumber}" name="idNumber" readonly>
+        </label>
+        <label>
+            <span>出行路线</span>
+            <input id="route" type="text" value="{$order.depart}--{$order.arrival}" name="route" readonly>
+        </label>
+        <label>
+            <span>起飞时间</span>
+            <input id="time" type="text" value="{$order.departTime}" name="time" readonly>
+        </label>
+        <label>
+            <span>价格</span>
+            <input id="totalPrice" type="text" value="1250.00" name="totalPrice" readonly>
+        </label>
+        <input type="hidden" value="已付款" name="paymentStatus">
+        <input type="hidden" value="{$passenger.passTel}" name="tel">
+        <label>
+            <span>&nbsp;</span>
+            <input type="button" id="confirm" class="button" value="确认">
+        </label>
+    </form>
+</div>
+{include file='public/js'}
+
+<script>
+    $(function () {
+        $('#confirm').click(function () {
+            $.ajax({
+                url:"{:url('admin/order/orderone')}",
+                type:'post',
+                data:$('form').serialize(),
+                datatype:'json',
+                success:function (data) {
+                    if(data.code==1){
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:1000
+                        },function () {
+                            //jump
+                            location.href = data.url;
+                        });
+                    }else{
+                        layer.open({
+                            title:"提示",
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        })
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>

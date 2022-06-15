@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="/static/asserts/css/login.css">
+    <link rel="shortcut icon" href="/static/asserts/img/xlogo.png" type="image/x-icon">
+</head>
+<body>
+<div id="content">
+    <div class="login-header">
+        <img src="/static/asserts/img/logo.png">
+    </div>
+    <form action="#" method="post">
+        <div class="login-input-box">
+            <span class="icon icon-user"></span>
+            <input type="text" placeholder="账号" name="loginId">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-password"></span>
+            <input type="password" placeholder="密码" name="password">
+        </div>
+        <div class="login-button-box">
+            <input type="button" id="login" value="登录">
+        </div>
+    </form>
+    <div class="logon-box">
+        <a href="{:url('admin/user/register')}">注册新账号</a>
+        <a href="#">管理员登录</a>
+    </div>
+</div>
+
+<script src="/static/asserts/js/skins.min.js"></script>
+<!--Basic Scripts-->
+<script src="/static/asserts/js/jquery.min.js"></script>
+<script src="/static/asserts/js/bootstrap.min.js"></script>
+<script src="/static/asserts/js/slimscroll/jquery.slimscroll.min.js"></script>
+<!--Beyond Scripts-->
+<script src="/static/asserts/js/beyond.js"></script>
+<script src="/static/asserts/lib/layer/layer.js"></script>
+
+<script>
+    $(function () {
+        $('#login').click(function () {
+            $.ajax({
+                url:"{:url('admin/user/login')}",
+                type:'post',
+                data:$('form').serialize(),
+                datatype:'json',
+                success:function (data) {
+                    if(data.code==1){
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:1000
+                        },function () {
+                            //jump
+                            location.href = data.url;
+                        });
+                    }else{
+                        layer.open({
+                            title:"提示",
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        })
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>

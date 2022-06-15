@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="/static/asserts/css/register.css">
+    <link rel="shortcut icon" href="/static/asserts/img/xlogo.png" type="image/x-icon">
+</head>
+<body>
+<div id="content">
+    <div class="login-header">
+        <img src="/static/asserts/img/logo.png">
+    </div>
+    <form  method="post">
+        <div class="login-input-box">
+            <span class="icon icon-user"></span>
+            <input type="text" placeholder="登录账号" name="loginId">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-password"></span>
+            <input type="password" placeholder="密码" name="password">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-confirm"></span>
+            <input type="password" placeholder="确认密码" name="confirm">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-name"></span>
+            <input type="text" placeholder="昵称" name="userName">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-sex"></span>
+            <input type="text" placeholder="性别" name="sex">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-age"></span>
+            <input type="number" placeholder="年龄" name="age">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-tel"></span>
+            <input type="text" placeholder="联系电话" name="tel">
+        </div>
+        <div class="login-input-box">
+            <span class="icon icon-email"></span>
+            <input type="email" placeholder="电子邮件" name="email">
+        </div>
+        <div class="captcha-input-box">
+            <span class="icon icon-captcha"></span>
+            <input type="text" name="captcha" placeholder="验证码"/>
+            <img src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}'"/>
+        </div>
+        <div class="login-button-box">
+            <input type="button" id="register" value="注册">
+        </div>
+    </form>
+    <div class="logon-box">
+        <a href="{:url('admin/user/login')}">已有账号?去登录</a>
+    </div>
+</div>
+<script src="/static/asserts/js/skins.min.js"></script>
+<!--Basic Scripts-->
+<script src="/static/asserts/js/jquery.min.js"></script>
+<script src="/static/asserts/js/bootstrap.min.js"></script>
+<script src="/static/asserts/js/slimscroll/jquery.slimscroll.min.js"></script>
+<!--Beyond Scripts-->
+<script src="/static/asserts/js/beyond.js"></script>
+<script src="/static/asserts/lib/layer/layer.js"></script>
+
+<script>
+    $(function () {
+        $('#register').click(function () {
+            $.ajax({
+                url:"{:url('admin/user/register')}",
+                type:'post',
+                data:$('form').serialize(),
+                datatype:'json',
+                success:function (data) {
+                    if(data.code==1){
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:1000
+                        },function () {
+                            //jump
+                            location.href = data.url;
+
+                        });
+                    }else{
+                        layer.open({
+                            title:"提示",
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        })
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>

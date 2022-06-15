@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>订单查询</title>
+    <link rel="stylesheet" href="/static/asserts/css/navigate.css">
+    <link rel="stylesheet" href="/static/asserts/css/table.css">
+    <link rel="shortcut icon" href="/static/asserts/img/xlogo.png" type="image/x-icon">
+    <style type="text/css">
+        .notify{
+            text-align: center;
+            margin-top: 20px;
+            color: #666666;
+            size: 5px;
+        }
+    </style>
+</head>
+<body>
+{include file='public/head'}
+<div class="div-style" align="center">
+    <table id="tables" title="订单">
+        <tr>
+            <thead>
+                <th>订单ID</th>
+                <th>账号</th>
+                <th>用户名</th>
+                <th>联系方式</th>
+                <th>总价格</th>
+                <th>支付状态</th>
+                <th>详情</th>
+                <th>操作</th>
+            </thead>
+        </tr>
+        <tr>
+            {volist name='list' id='vo'}
+            <tbody>
+                <td>{$vo.orderId}</td>
+                <td>{$vo.loginId}</td>
+                <td>{$vo.userName}</td>
+                <td>{$vo.tel}</td>
+                <td>{$vo.totalPrice}</td>
+                <td>{$vo.paymentStatus}</td>
+                <td><a href="{:url('admin/ticket/ticketlist')}">详情</a> </td>
+                <td><a href="#" id="deleteorder" orderId="{$vo.orderId}">删除</a> </td>
+            </tbody>
+            {/volist}
+        </tr>
+    </table>
+</div>
+
+{include file='public/js'}
+<script>
+    $(function () {
+        $('#deleteorder').click(function () {
+            var orderId = $(this).attr('orderId');
+            $.ajax({
+                url:"{:url('admin/order/orderdelete')}",
+                type:'post',
+                data:{orderId:orderId},
+                datatype:'json',
+                success:function (data) {
+                    layer.msg(data.msg,{
+                        icon:6,
+                        time:1000
+                    },function () {
+                        //jump
+                        location.href=data.url;
+                    });
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>

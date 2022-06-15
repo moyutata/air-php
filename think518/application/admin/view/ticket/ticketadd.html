@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="cn" >
+<head>
+    <meta charset="UTF-8">
+    <title>购买机票</title>
+    <link rel="stylesheet" href="/static/asserts/css/navigate.css">
+    <link rel="stylesheet" href="/static/asserts/css/update.css">
+    <link rel="shortcut icon" href="/static/asserts/img/xlogo.png" type="image/x-icon">
+</head>
+<body>
+{include file='public/head'}
+
+<div class="div-style">
+    <form class="basic-grey">
+        <h1>3.完成购买</h1>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您已完成本次机票购买！</span>
+        <input type="hidden" value="S001" name="shippingId">
+        <input type="hidden" value="null" name="seatId">
+        <input type="hidden" value="30" name="cost">
+        <input type="hidden" value="50" name="insurance">
+        <input type="hidden" value="1330.00" name="totalcost">
+        <input type="hidden" value="null" name="remarks">
+        <input type="hidden" value="no" name="isCheckIn">
+        <br/><br/><br/>
+        <label>
+            <span>&nbsp;</span>
+            <input type="button" id="addticket" class="button" value="确认">
+        </label>
+    </form>
+</div>
+
+{include file='public/js'}
+<script>
+    $(function () {
+        $('#addticket').click(function () {
+            $.ajax({
+                url:"{:url('admin/ticket/ticketadd')}",
+                type:'post',
+                data:$('form').serialize(),
+                datatype:'json',
+                success:function (data) {
+                    if(data.code==1){
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:1000
+                        },function () {
+                            //jump
+                            location.href = data.url;
+                        });
+                    }else{
+                        layer.open({
+                            title:"提示",
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        })
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>

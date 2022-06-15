@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>厦门航空</title>
+    {include file='public/navi'}
+</head>
+<body>
+<!--nav bar-->
+{include file='public/head'}
+<div align="center" class="div-style">
+    <table id="tables" title="特价推荐">
+        <thead>
+            <tr>
+                <th>出发</th>
+                <th>到达</th>
+                <th>起飞时间</th>
+                <th>价格</th>
+            </tr>
+        </thead>
+        <tbody>
+        {volist name='list' id='vo'}
+            <tr>
+                <td>{$vo.depart}</td>
+                <td>{$vo.arrival}</td>
+                <td>{$vo.departureTime}</td>
+                <td>{$vo.price}</td>
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+</div>
+
+{include file='public/js'}
+</body>
+</html>

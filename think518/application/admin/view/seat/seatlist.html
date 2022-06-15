@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>在线值机</title>
+    <link rel="stylesheet" href="/static/asserts/css/navigate.css">
+    <link rel="stylesheet" href="/static/asserts/css/update.css">
+    <link rel="shortcut icon" href="/static/asserts/img/xlogo.png" type="image/x-icon">
+</head>
+<body>
+{include file='public/head'}
+<div class="div-style">
+    <form action="#" method="post" class="basic-grey">
+        <h1>在线值机</h1>
+        <table border="1" align="center">
+            <tr>
+                <td>窗户</td>
+                <td>█ 1</td>
+                <td>█ 2</td>
+                <td>█ 3</td>
+                <td>过道</td>
+                <td>█ 4</td>
+                <td>█ 5</td>
+                <td>窗户</td>
+            </tr>
+        </table>
+        <label>
+            <span>位置选择</span>
+            <select name="seatId">
+                {volist name='list' id='vo'}
+                    <option value="{$vo.seatId}" name="seatId">{$vo.seatId}</option>
+                {/volist}
+            </select>
+        </label>
+        <input id="seatStatus" type="hidden" name="seatStatus" value="已选">
+        <label>
+            <span>&nbsp;</span>
+            <input type="button" class="button" id="seatadd" value="确认">
+        </label>
+    </form>
+</div>
+{include file='public/js'}
+
+<script>
+    $(function () {
+        $('#seatadd').click(function () {
+            $.ajax({
+                url:"{:url('admin/seatchosen/seatadd')}",
+                type:'post',
+                data:$('form').serialize(),
+                datatype:'json',
+                success:function (data) {
+                    if(data.code==1){
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:1000
+                        },function () {
+                            //jump
+                            location.href = data.url;
+                        });
+                    }else{
+                        layer.open({
+                            title:"提示",
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        })
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>

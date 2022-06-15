@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>航班信息</title>
+    {include file='public/navi'}
+    <style type="text/css">
+        .textType{
+            margin: 0;
+        }
+        .div-title{
+            background-color: #081e7f;
+            height: 25px;
+        }
+        .div-title input{
+            color: white;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .div-flight{
+            background-color: #24a1fc;
+            height: 25px;
+        }
+        .div-flight span>input{
+            color: white;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+    </style>
+</head>
+<body>
+{include file='public/head'}
+<div align="center">
+    <form action="{:url('admin/executiveflight/execsearch')}" method="post">
+        <table>
+            <tr><th>出发地</th><th>目的地</th><th>出发时间</th><th></th></tr>
+            <tr>
+                <td><input type="text" id="depart" name="depart"></td>
+                <td><input type="text" id="arrival" name="arrival"></td>
+                <td><input type="date" id="execDate" name="execDate"></td>
+                <td><input type="submit" value="查询"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+{volist name='list' id='vo'}
+<div class="textType" align="center">
+    <form>
+        <div class="div-title">单程：{$vo.departCity}-{$vo.arrivalCity}&nbsp;{$vo.execDate}</div>
+        <div class="div-flight">航班号：{$vo.execId}</div>
+        <div>({$vo.depart}{$vo.deTerName}){$vo.estimateDeparture|date='H:i'}——————————————————————>
+            ({$vo.arrival}{$vo.arTerName}){$vo.estimateArrival|date='H:i'}({$vo.status})</div>
+        <input type="hidden" value="{$vo.depart}" name="depart">
+        <input type="hidden" value="{$vo.arrival}" name="arrival">
+        <input type="hidden" value="{$vo.estimateDeparture|date='Y-m-d H:i'}" name="departTime">
+        <input type="hidden" value="{$vo.execId}" name="execId">
+        <input type="hidden" value="{$vo.boardingGate}" name="boardingGate">
+        <table class="tables">
+            <tbody>
+            {volist name="vo['grade']" id="grade"}
+            <tr>
+                <td>{$grade.grade}</td>
+                <td>{$grade.salePrice}</td>
+                <input type="hidden" value="{$grade.salePrice}" name="totalPrice">
+                <td>{$grade.isMeal}</td>
+                <td><input type="button" id="order" value="预定"></td>
+                <td>余票：{$grade.remains}</td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </form>
+</div>
+{/volist}
+{include file='public/js'}
+<script>
+    $(function () {
+        $('#order').click(function () {
+            $.ajax({
+                url:"{:url('admin/executiveflight/infosave')}",
+                type:'post',
+                data:$('form').serialize(),
+                datatype:'json',
+                success:function (data) {
+                    if(data.code==1){
+                        layer.msg(data.msg,{
+                            icon:6,
+                            time:1000
+                        },function () {
+                            //jump
+                            location.href = data.url;
+                        });
+                    }else{
+                        layer.open({
+                            title:"提示",
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        })
+                    }
+                }
+            })
+        });
+    })
+</script>
+</body>
+</html>
